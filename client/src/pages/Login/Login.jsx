@@ -6,12 +6,21 @@ import { Link } from "react-router-dom";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    console.log(username);
-    console.log(password);
+    if (!username) {
+      setError("Username is required.");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required.");
+      return;
+    }
+
+    setError("");
   };
 
   return (
@@ -30,6 +39,8 @@ const Login = () => {
             <PasswordInput placeholder="Password"
               value={password}
               onChange={(e) => { setPassword(e.target.value); }} />
+
+            {error && (<p className="text-red-500 text-sm pb-1">{error}</p>)}
 
             <button type="submit" className="btn-primary">Login</button>
 
