@@ -34,11 +34,15 @@ const Login = () => {
 
             <input type="text" placeholder="Username" className="input-box"
               value={username}
-              onChange={(e) => { setUsername(e.target.value); }} />
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }} />
 
             <PasswordInput placeholder="Password"
               value={password}
-              onChange={(e) => { setPassword(e.target.value); }} />
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }} />
 
             {error && (<p className="text-red-500 text-sm pb-1">{error}</p>)}
 

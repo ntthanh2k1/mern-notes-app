@@ -25,19 +25,27 @@ const Register = () => {
 
             <input type="text" placeholder="Name" className="input-box"
               value={name}
-              onChange={(e) => { setName(e.target.value); }} />
+              onChange={(e) => {
+                setName(e.target.value);
+              }} />
             
             <input type="text" placeholder="Email" className="input-box"
               value={email}
-              onChange={(e) => { setEmail(e.target.value); }} />
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }} />
 
             <input type="text" placeholder="Username" className="input-box"
               value={username}
-              onChange={(e) => { setUsername(e.target.value); }} />
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }} />
 
             <PasswordInput placeholder="Password"
               value={password}
-              onChange={(e) => { setPassword(e.target.value); }} />
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }} />
 
             {error && (<p className="text-red-500 text-sm pb-1">{error}</p>)}
 

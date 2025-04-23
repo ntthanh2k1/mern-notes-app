@@ -19,11 +19,11 @@ const PasswordInput = ({ placeholder, value, onChange }) => {
       {isShowPassword ? (
         <FaRegEye size={22}
           className="text-primary cursor-pointer"
-          onClick={() => { showPasswordHandler(); }} />
+          onClick={showPasswordHandler} />
       ) : (
         <FaRegEyeSlash size={22}
           className="text-slate-400 cursor-pointer"
-          onClick={() => { showPasswordHandler(); }} />
+          onClick={showPasswordHandler} />
       )}
     </div>
   );
