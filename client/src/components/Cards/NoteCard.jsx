@@ -35,7 +35,7 @@ const NoteCard = ({
         <div className="flex items-center gap-2">
           <MdCreate className="icon-btn hover:text-yellow-500" onClick={editHandler} />
 
-          <MdDelete className="icon_btn hover:text-red-500" onClick={deleteHandler} />
+          <MdDelete className="icon-btn hover:text-red-500" onClick={deleteHandler} />
         </div>
       </div>
     </div>
