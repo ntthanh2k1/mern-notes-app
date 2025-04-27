@@ -6,9 +6,9 @@ const TagInput = ({ tags, setTags }) => {
 
   const addNewTag = () => {
     if (inputValue.trim() !== "") {
-      setTags([ ...tags, inputValue.trim() ]);
+      setTags([...tags, inputValue.trim()]);      
+      setInputValue("");
     }
-    setInputValue("");
   };
 
   const keyDownHandler = (e) => {
@@ -23,18 +23,19 @@ const TagInput = ({ tags, setTags }) => {
 
   return (
     <div>
-      {tags?.length > 0 && <div className="">
+      {tags.length > 0 && (<div className="flex items-center gap-2 flex-wrap mt-2">
         {tags.map((tag, index) => (
-          <span key={index} className="flex items-center gap-2 flex-wrap mt-2">
-            # {tag}
-            <button onClick={() => {
+          <span key={index}
+            className="flex items-center gap-2 flex-wrap mt-2 text-sm text-slate-900 bg-slate-100 py-1 rounded">
+            #{tag}
+            <button className="" onClick={() => {
               removeTagHandler(tag);
             }}>
               <MdClose />
             </button>
           </span>
         ))}
-      </div>}
+      </div>)}
 
       <div className="flex items-center gap-4 mt-3">
         <input type="text"
