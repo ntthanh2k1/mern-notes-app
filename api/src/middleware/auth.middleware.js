@@ -17,7 +17,7 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(500).json({ message: `Error verifyToken method: ${error.message}` });
+    res.status(500).json({ message: `Error verifyToken method: ${error.message}.` });
   }
 };
 
