@@ -15,7 +15,7 @@ const register = async (req, res) => {
       return res.status(400).json({ error: true, message: "Email is required." });
     }
 
-    if (!validateEmail(email)) {
+    if (!isValidEmail(email)) {
       return res.status(400).json({ error: true, message: "Email's format is not valid." });
     }
 
