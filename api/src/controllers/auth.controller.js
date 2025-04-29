@@ -57,9 +57,9 @@ const login = async (req, res) => {
       return res.status(400).json({ error: true, message: "Username is required." });
     }
 
-    const userExists = await User.findOne({ username });
+    const existingUser = await User.findOne({ username });
 
-    if (!userExists) {
+    if (!existingUser) {
       return res.status(404).json({ error: true, message: `Username ${username} is not found.` });
     }
 
@@ -67,7 +67,7 @@ const login = async (req, res) => {
       return res.status(400).json({ error: true, message: "Password is required." });
     }
 
-    createToken(userExists._id, res);
+    createToken(existingUser._id, res);
 
     res.status(200).json({ error: false, message: "Logged in successfully." });
   } catch (error) {
