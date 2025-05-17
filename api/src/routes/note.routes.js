@@ -1,15 +1,19 @@
 import express from "express";
-import { addNote, editNote, pinNote } from "../controllers/note.controller.js";
+import { addNote, deleteNote, editNote, getAllNotes, pinNote } from "../controllers/note.controller.js";
 import { verifyToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, addNote);
+router.use(verifyToken);
 
-router.patch("/:id", verifyToken, editNote);
+router.get("/", getAllNotes);
 
-router.patch("/pin-note/:id", verifyToken, pinNote);
+router.post("/", addNote);
 
-router.delete("/:id", verifyToken,);
+router.patch("/:id", editNote);
+
+router.patch("/pin-note/:id", pinNote);
+
+router.delete("/:id", deleteNote);
 
 export default router;

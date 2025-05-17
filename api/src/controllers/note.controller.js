@@ -1,12 +1,24 @@
 import Note from "../models/note.model.js";
 
+const getAllNotes = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const notes = await Note.find({ userId: user._id }).sort({ isPinned: -1, updatedAt: -1 });
+
+    res.status(200).json({ error: false, data: notes });
+  } catch (error) {
+    error.methodName = getAllNotes.name;
+    next(error);
+  }
+};
+
 const addNote = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
     const user = req.user;
 
     if (!title) {
-      return res.status(400).json({ error: true, message: "title required." });
+      return res.status(400).json({ error: true, message: "Title required." });
     }
 
     if (!content) {
@@ -41,21 +53,22 @@ const editNote = async (req, res, next) => {
       return res.status(404).json({ error: true, message: "Note not found." });
     }
 
-    if (user._id !== note.userId) {
-      return res.status(400).json({ error: true, message: "You are not authorized to perform this action." })
+    if (user._id.toString() !== note.userId.toString()) {
+      return res.status(403).json({ error: true, message: "You are not authorized to perform this action." })
     }
 
-    if (!title) {
-      return res.status(400).json({ error: true, message: "title required." });
+    if (title !== undefined) {
+      note.title = title;
     }
 
-    if (!content) {
-      return res.status(400).json({ error: true, message: "Content required." });
+    if (content !== undefined) {
+      note.content = content;
     }
 
-    note.title = title;
-    note.content = content;
-    note.tags = tags || note.tags;
+    if (tags !== undefined) {
+      note.tags = tags;
+    }
+    
     await note.save();
 
     res.status(200).json({ error: false, message: "Note updated successfully." });
@@ -68,14 +81,16 @@ const editNote = async (req, res, next) => {
 const pinNote = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const user = req.user;
+
     const note = await Note.findById(id);
 
     if (!note) {
       return res.status(404).json({ error: true, message: "Note not found." });
     }
 
-    if (user._id !== note.userId) {
-      return res.status(400).json({ error: true, message: "You are not authorized to perform this action." })
+    if (user._id.toString() !== note.userId.toString()) {
+      return res.status(403).json({ error: true, message: "You are not authorized to perform this action." })
     }
 
     note.isPinned = !note.isPinned;
@@ -93,10 +108,25 @@ const pinNote = async (req, res, next) => {
 const deleteNote = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const user = req.user;
+
+    const note = await Note.findById(id);
+
+    if (!note) {
+      return res.status(404).json({ error: true, message: "Note not found." });
+    }
+
+    if (user._id.toString() !== note.userId.toString()) {
+      return res.status(403).json({ error: true, message: "You are not authorized to perform this action." })
+    }
+
+    await note.deleteOne();
+    
+    res.status(200).json({ error: false, message: "Note deleted successfully." });
   } catch (error) {
     error.methodName = deleteNote.name;
     next(error);
   }
 }
 
-export { addNote, editNote, pinNote };
+export { getAllNotes, addNote, editNote, pinNote, deleteNote };
