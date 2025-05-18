@@ -57,18 +57,17 @@ const editNote = async (req, res, next) => {
       return res.status(403).json({ error: true, message: "You are not authorized to perform this action." })
     }
 
-    if (title !== undefined) {
-      note.title = title;
+    if (!title) {
+      return res.status(400).json({ error: true, message: "Title required." });
     }
 
-    if (content !== undefined) {
-      note.content = content;
+    if (!content) {
+      return res.status(400).json({ error: true, message: "Content required." });
     }
 
-    if (tags !== undefined) {
-      note.tags = tags;
-    }
-    
+    note.title = title;
+    note.content = content;
+    note.tags = tags;
     await note.save();
 
     res.status(200).json({ error: false, message: "Note updated successfully." });
