@@ -27,6 +27,10 @@ const register = async (req, res, next) => {
       return res.status(400).json({ error: true, message: "Password required." });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ error: true, message: "Password must be at least 6 characters." });
+    }
+
     const userExists = await User.findOne({ username });
 
     if (userExists) {
@@ -69,6 +73,12 @@ const login = async (req, res, next) => {
       return res.status(400).json({ error: true, message: "Password required." });
     }
 
+    const isCorrectPassword = await bcrypt.compare(password, existingUser.password);
+
+    if (!isCorrectPassword) {
+      return res.status(400).json({ error: true, message: "Password not correct." });
+    }
+
     createToken(existingUser._id, res);
 
     res.status(200).json({ error: false, message: "Logged in successfully." });
@@ -78,7 +88,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const logout = async (req, res) => {
+const logout = async (req, res, next) => {
   try {
     res.clearCookie("accessToken");
     res.status(200).json({ error: false, message: "Logged out successfully." });
@@ -88,4 +98,17 @@ const logout = async (req, res) => {
   }
 };
 
-export { register, login, logout };
+const getAuthUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const authUser = await User.findById(user._id).select("-password");
+
+    res.status(200).json({ error: false, data: authUser });
+  } catch (error) {
+    error.methodName = getAuthUser.name;
+    next(error);
+  }
+};
+
+export { register, login, logout, getAuthUser };

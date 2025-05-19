@@ -1,32 +1,44 @@
 import { useState } from 'react';
 import PasswordInput from '../../components/Input/PasswordInput';
 import Navbar from '../../components/Navbar/Navbar';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from '../../utils/axios';
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+
   const loginHandler = async (e) => {
     e.preventDefault();
     if (!username) {
-      setError("Username is required.");
+      setError("Username required.");
       return;
     }
 
     if (!password) {
-      setError("Password is required.");
+      setError("Password required.");
       return;
     }
 
     setError("");
+
+    try {
+      await axiosInstance.post("/auth/login", {
+        username,
+        password
+      });
+
+      navigate("/");
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to login.");
+    }
   };
 
   return (
     <>
-      <Navbar />
-
       <div className="flex items-center justify-center mt-28">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form onSubmit={loginHandler}>

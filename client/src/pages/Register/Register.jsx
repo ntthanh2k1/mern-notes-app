@@ -2,6 +2,8 @@ import { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import PasswordInput from "../../components/Input/PasswordInput";
 import { Link } from "react-router-dom";
+import { isValidEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axios";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,14 +12,60 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const registerHandler = async () => {
+  const registerHandler = async (e) => {
+    e.preventDefault();
+
+    if (!name) {
+      setError("Name required.");
+      return;
+    }
+
+    if (!email) {
+      setError("Email required.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError("Email's format not valid.");
+      return;
+    }
+
+    if (!username) {
+      setError("Username required.");
+      return;
+    }
+
+    if (!password) {
+      setError("Password required.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
     setError("");
+
+    try {
+      await axiosInstance.post("/auth/register", {
+        name,
+        email,
+        username,
+        password
+      });
+
+      setName("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to register.");
+    }
   };
 
   return (
     <>
-      <Navbar />
-
       <div className="flex items-center justify-center mt-28">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form onSubmit={registerHandler}>

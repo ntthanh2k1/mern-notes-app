@@ -1,3 +1,8 @@
+const isValidEmail = (email) => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+};
+
 const getInitialChars = (name) => {
   if (!name) {
     return "";
@@ -13,4 +18,4 @@ const getInitialChars = (name) => {
   return initialChars.toUpperCase();
 };
 
-export { getInitialChars };
+export { isValidEmail, getInitialChars };

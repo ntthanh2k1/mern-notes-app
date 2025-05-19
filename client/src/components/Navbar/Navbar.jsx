@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import ProfileInfo from "../Cards/ProfileInfo";
 import SearchBar from "../SearchBar/SearchBar";
 import { useState } from "react";
+import axiosInstance from "../../utils/axios";
 
-const Navbar = () => {
+const Navbar = ({ authUser }) => {
   const [searchString, setSearchString] = useState("");
   const navigate = useNavigate();
 
@@ -15,14 +16,15 @@ const Navbar = () => {
     setSearchString("");
   };
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
+    await axiosInstance.post("/auth/logout");
     navigate("/login");
   };
 
   return (
     <div className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
       <h2 className="text-xl font-medium text-black py-2">
-        <Link to="/dashboard">MERN NOTES APP</Link>
+        <Link to="/">MERN NOTES APP</Link>
       </h2>
 
       <SearchBar value={searchString}
@@ -32,7 +34,7 @@ const Navbar = () => {
         searchHandler={searchHandler}
         clearSearchHandler={clearSearchHandler} />
 
-      <ProfileInfo logoutHandler={logoutHandler} />
+      <ProfileInfo authUser={authUser} logoutHandler={logoutHandler} />
     </div>
   );
 };
