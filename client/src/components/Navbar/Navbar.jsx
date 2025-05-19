@@ -4,7 +4,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { useState } from "react";
 import axiosInstance from "../../utils/axios";
 
-const Navbar = ({ authUser }) => {
+const Navbar = () => {
   const [searchString, setSearchString] = useState("");
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const Navbar = ({ authUser }) => {
         searchHandler={searchHandler}
         clearSearchHandler={clearSearchHandler} />
 
-      <ProfileInfo authUser={authUser} logoutHandler={logoutHandler} />
+      <ProfileInfo logoutHandler={logoutHandler} />
     </div>
   );
 };

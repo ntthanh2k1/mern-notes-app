@@ -1,6 +1,9 @@
+import useAuth from "../../hooks/useAuth";
 import { getInitialChars } from "../../utils/helper";
 
-const ProfileInfo = ({ authUser, logoutHandler }) => {
+const ProfileInfo = ({ logoutHandler }) => {
+  const { authUser } = useAuth();
+
   return (
     <div className="flex items-center gap-3">
       <div className="flex justify-center items-center w-12 h-12 rounded-full font-medium bg-slate-200">

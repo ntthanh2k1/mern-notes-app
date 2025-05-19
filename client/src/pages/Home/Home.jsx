@@ -1,46 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NoteCard from "../../components/Cards/NoteCard";
 import Navbar from "../../components/Navbar/Navbar";
 import { MdAdd } from "react-icons/md";
 import AddEditNotes from "./AddEditNotes";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axios";
 
 const Home = () => {
-  const [authUser, setAuthUser] = useState(null);
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
     type: "add",
     data: null
   });
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const getAuthUser = async () => {
-      try {
-        const res = await axiosInstance.get("/auth/get-auth-user");
-    
-        if (res?.data?.data) {
-          setAuthUser(res.data.data);
-        }
-      } catch (error) {
-        if (error.response.status === 401) {
-          await axiosInstance.post("/auth/logout");
-          navigate("/login");
-        } else {
-          console.error(`Failed to get auth user ${error}`);
-        }
-      }
-    };
-
-    getAuthUser();
-  }, [navigate]);
-
   return (
     <>
-      <Navbar authUser={authUser} />
+      <Navbar />
 
       <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4 mt-8">
