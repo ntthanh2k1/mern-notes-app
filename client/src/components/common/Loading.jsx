@@ -1,6 +1,6 @@
 import { RiLoader2Fill } from "react-icons/ri";
 
-const Loader = () => {
+const Loading = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
       <RiLoader2Fill className="text-3xl animate-spin text-slate-800" />
@@ -8,4 +8,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default Loading;

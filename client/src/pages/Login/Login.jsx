@@ -2,12 +2,14 @@ import { useState } from 'react';
 import PasswordInput from '../../components/common/PasswordInput';
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from '../../utils/axios';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  
+
+  const { setAuthUser } = useAuth();
   const navigate = useNavigate();
 
   const loginHandler = async (e) => {
@@ -25,14 +27,20 @@ const Login = () => {
     setError("");
 
     try {
-      await axiosInstance.post("/auth/login", {
+      const res = await axiosInstance.post("/auth/login", {
         username,
         password
       });
 
+      setAuthUser({
+        isAuthenticated: true,
+        name: res.data.data.name,
+        username: res.data.data.username
+      });
+
       navigate("/");
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to login.");
+      setError(error?.response?.data?.message || "Failed to login.");
     }
   };
 

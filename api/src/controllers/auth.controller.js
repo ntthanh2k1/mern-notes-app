@@ -31,16 +31,16 @@ const register = async (req, res, next) => {
       return res.status(400).json({ error: true, message: "Password must be at least 6 characters." });
     }
 
-    const userExists = await User.findOne({ username });
+    const currentUser  = await User.findOne({ username });
 
-    if (userExists) {
+    if (currentUser) {
       return res.status(400).json({ error: true, message: `Username ${username} already exists.` });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    let newUser = new User({
+    const newUser = new User({
       name: name,
       email: email,
       username: username,
@@ -63,9 +63,9 @@ const login = async (req, res, next) => {
       return res.status(400).json({ error: true, message: "Username required." });
     }
 
-    const existingUser = await User.findOne({ username });
+    const currentUser = await User.findOne({ username });
 
-    if (!existingUser) {
+    if (!currentUser) {
       return res.status(404).json({ error: true, message: `Username ${username} not found.` });
     }
 
@@ -73,15 +73,22 @@ const login = async (req, res, next) => {
       return res.status(400).json({ error: true, message: "Password required." });
     }
 
-    const isCorrectPassword = await bcrypt.compare(password, existingUser.password);
+    const isCorrectPassword = await bcrypt.compare(password, currentUser.password);
 
     if (!isCorrectPassword) {
       return res.status(400).json({ error: true, message: "Password not correct." });
     }
 
-    createToken(existingUser._id, res);
+    createToken(currentUser._id, res);
 
-    res.status(200).json({ error: false, message: "Logged in successfully." });
+    res.status(200).json({
+      error: false,
+      message: "Logged in successfully.",
+      data: {
+        name: currentUser.name,
+        username: currentUser.username
+      }
+    });
   } catch (error) {
     error.methodName = login.name;
     next(error);

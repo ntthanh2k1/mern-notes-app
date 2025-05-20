@@ -1,9 +1,16 @@
-
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import axiosInstance from "../../utils/axios";
 import { getInitialChars } from "../../utils/helper";
 
-const ProfileInfo = ({ logoutHandler }) => {
+const UserInfo = () => {
   const { authUser } = useAuth();
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    await axiosInstance.post("/auth/logout");
+    navigate("/login");
+  };
 
   return (
     <div className="flex items-center gap-3">
@@ -20,4 +27,4 @@ const ProfileInfo = ({ logoutHandler }) => {
   );
 };
 
-export default ProfileInfo;
+export default UserInfo;

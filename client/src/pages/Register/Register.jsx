@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PasswordInput from "../../components/common/PasswordInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isValidEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axios";
 
@@ -10,6 +10,8 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  
+  const navigate = useNavigate();
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -54,10 +56,7 @@ const Register = () => {
         password
       });
 
-      setName("");
-      setEmail("");
-      setUsername("");
-      setPassword("");
+      navigate("/login");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to register.");
     }

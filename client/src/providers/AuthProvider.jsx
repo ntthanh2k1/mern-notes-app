@@ -1,32 +1,39 @@
 import { useEffect, useState } from "react";
+import AuthContext from "../context/authContext";
 import axiosInstance from "../utils/axios";
-import AuthContext from "../context/auth.context";
-import { useNavigate } from "react-router-dom";
-import Loader from "../components/common/Loader";
+import Loader from "../components/common/Loading";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser, setAuthUser] = useState({
+    isAuthenticated: false,
+    name: "",
+    username: ""
+  });
+  
+  const getAuthUser = async () => {
+    try {
+      const res = await axiosInstance.get("/auth/get-auth-user");
 
-  const navigate = useNavigate();
+      setAuthUser({
+        isAuthenticated: true,
+        name: res.data.data.name,
+        username: res.data.data.username
+      });
+    } catch {
+      setAuthUser({
+        isAuthenticated: false,
+        name: "",
+        username: ""
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getAuthUser = async () => {
-      try {
-        const res = await axiosInstance.get("/auth/get-auth-user");
-        
-        if (res?.data?.data) {
-          setAuthUser(res.data.data);
-        }
-      } catch {
-        navigate("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     getAuthUser();
-  }, [navigate]);
+  }, []);
 
   if (loading) {
     return (
