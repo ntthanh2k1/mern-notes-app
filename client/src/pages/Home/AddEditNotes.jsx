@@ -20,12 +20,12 @@ const AddEditNotes = ({ type, noteData, closeHandler }) => {
 
   const addEditNoteHandler = () => {
     if (!title) {
-      setError("Title is required.");
+      setError("Title required.");
       return;
     }
 
     if (!content) {
-      setError("Content is required.");
+      setError("Content required.");
       return;
     }
 
@@ -79,7 +79,7 @@ const AddEditNotes = ({ type, noteData, closeHandler }) => {
 
       <button className="btn-primary font-medium mt-5 p-3"
         onClick={addEditNoteHandler}>
-        ADD
+        Save
       </button>
     </div>
   );
