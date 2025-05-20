@@ -1,10 +1,11 @@
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axiosInstance from "../utils/axios";
-
-const AuthContext = createContext();
+import AuthContext from "../context/auth.context";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/common/Loader";
 
 const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState(null);
 
   const navigate = useNavigate();
@@ -17,17 +18,21 @@ const AuthProvider = ({ children }) => {
         if (res?.data?.data) {
           setAuthUser(res.data.data);
         }
-      } catch (error) {
-        if (error.response?.status === 401) {
-          navigate("/login");
-        } else {
-          console.error(`Failed to get auth user: ${error}`);
-        }
+      } catch {
+        navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     getAuthUser();
   }, [navigate]);
+
+  if (loading) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser }}>
@@ -36,4 +41,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthContext, AuthProvider };
+export default AuthProvider;

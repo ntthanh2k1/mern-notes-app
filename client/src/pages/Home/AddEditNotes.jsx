@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TagInput from "../../components/Input/TagInput";
+import TagInput from "../../components/common/TagInput";
 import { MdClose } from "react-icons/md";
 
 const AddEditNotes = ({ type, noteData, closeHandler }) => {

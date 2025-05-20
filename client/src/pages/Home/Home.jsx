@@ -1,6 +1,6 @@
 import { useState } from "react";
-import NoteCard from "../../components/Cards/NoteCard";
-import Navbar from "../../components/Navbar/Navbar";
+import NoteCard from "../../components/cards/NoteCard";
+import Navbar from "../../components/layout/Navbar";
 import { MdAdd } from "react-icons/md";
 import AddEditNotes from "./AddEditNotes";
 import Modal from "react-modal";

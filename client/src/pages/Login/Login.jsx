@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PasswordInput from '../../components/Input/PasswordInput';
+import PasswordInput from '../../components/common/PasswordInput';
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from '../../utils/axios';
 
@@ -7,7 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
+  
   const navigate = useNavigate();
 
   const loginHandler = async (e) => {

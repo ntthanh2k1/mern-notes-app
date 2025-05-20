@@ -100,11 +100,7 @@ const logout = async (req, res, next) => {
 
 const getAuthUser = async (req, res, next) => {
   try {
-    const user = req.user;
-
-    const authUser = await User.findById(user._id).select("-password");
-
-    res.status(200).json({ error: false, data: authUser });
+    res.status(200).json({ error: false, data: req.user });
   } catch (error) {
     error.methodName = getAuthUser.name;
     next(error);

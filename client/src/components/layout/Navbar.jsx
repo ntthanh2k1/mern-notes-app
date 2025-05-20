@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import ProfileInfo from "../Cards/ProfileInfo";
-import SearchBar from "../SearchBar/SearchBar";
+import ProfileInfo from "../common/ProfileInfo";
+import SearchBar from "../common/SearchBar";
 import { useState } from "react";
 import axiosInstance from "../../utils/axios";
 
