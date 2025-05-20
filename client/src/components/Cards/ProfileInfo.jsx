@@ -1,3 +1,4 @@
+
 import useAuth from "../../hooks/useAuth";
 import { getInitialChars } from "../../utils/helper";
 
@@ -11,7 +12,7 @@ const ProfileInfo = ({ logoutHandler }) => {
       </div>
 
       <div>
-        <p className="text-sm font-medium">{authUser?.username.length > 10 ? `${authUser?.username?.slice(0, 10)}...` : authUser?.username }</p>
+        <p className="text-sm font-medium">{authUser?.username.length > 10 ? `${authUser?.username.slice(0, 10)}...` : authUser?.username}</p>
 
         <button className="text-sm text-slate-700 underline" onClick={logoutHandler}>Logout</button>
       </div>

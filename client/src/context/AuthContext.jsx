@@ -13,16 +13,15 @@ const AuthProvider = ({ children }) => {
     const getAuthUser = async () => {
       try {
         const res = await axiosInstance.get("/auth/get-auth-user");
-    
+        
         if (res?.data?.data) {
           setAuthUser(res.data.data);
         }
       } catch (error) {
-        if (error.response.status === 401) {
-          await axiosInstance.post("/auth/logout");
+        if (error.response?.status === 401) {
           navigate("/login");
         } else {
-          console.error(`Failed to get auth user ${error}`);
+          console.error(`Failed to get auth user: ${error}`);
         }
       }
     };
