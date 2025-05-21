@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AuthContext from "../context/authContext";
 import axiosInstance from "../utils/axios";
-import Loader from "../components/common/Loading";
+import Loading from "../components/common/Loading";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
   if (loading) {
     return (
-      <Loader />
+      <Loading />
     );
   }
 
