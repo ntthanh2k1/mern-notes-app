@@ -2,15 +2,33 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axiosInstance from "../../utils/axios";
 import { getInitialChars } from "../../utils/helper";
+import { useState } from "react";
 
 const UserInfo = () => {
-  const { authUser } = useAuth();
+  const [error, setError] = useState(null);
+
+  const { authUser, setAuthUser } = useAuth();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
-    await axiosInstance.post("/auth/logout");
-    navigate("/login");
+    try {
+      await axiosInstance.post("/auth/logout");
+
+      setAuthUser({
+        isAuthenticated: false,
+        name: "",
+        username: ""
+      });
+
+      navigate("/login");
+    } catch (error) {
+      setError(error?.response?.data?.message || "Failed to logout.");
+    }
   };
+
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <div className="flex items-center gap-3">

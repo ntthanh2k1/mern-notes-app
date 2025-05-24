@@ -15,11 +15,13 @@ const AuthProvider = ({ children }) => {
     try {
       const res = await axiosInstance.get("/auth/get-auth-user");
 
-      setAuthUser({
-        isAuthenticated: true,
-        name: res.data.data.name,
-        username: res.data.data.username
-      });
+      if (res?.data?.data) {
+        setAuthUser({
+          isAuthenticated: true,
+          name: res.data.data.name,
+          username: res.data.data.username
+        });
+      }
     } catch {
       setAuthUser({
         isAuthenticated: false,

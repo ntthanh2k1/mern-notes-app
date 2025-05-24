@@ -32,11 +32,13 @@ const Login = () => {
         password
       });
 
-      setAuthUser({
-        isAuthenticated: true,
-        name: res.data.data.name,
-        username: res.data.data.username
-      });
+      if (res?.data?.data) {
+        setAuthUser({
+          isAuthenticated: true,
+          name: res.data.data.name,
+          username: res.data.data.username
+        });
+      }
 
       navigate("/");
     } catch (error) {

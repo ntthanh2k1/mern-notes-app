@@ -3,7 +3,7 @@ import Note from "../models/note.model.js";
 const getAllNotes = async (req, res, next) => {
   try {
     const user = req.user;
-    const notes = await Note.find({ userId: user._id }).sort({ isPinned: -1, updatedAt: -1 });
+    const notes = await Note.find({ userId: user._id }).sort({ isPinned: -1 });
 
     res.status(200).json({ error: false, data: notes });
   } catch (error) {
@@ -34,7 +34,11 @@ const addNote = async (req, res, next) => {
 
     await note.save();
 
-    res.status(201).json({ error: false, message: "Note created successfully." });
+    res.status(201).json({
+      error: false,
+      message: "Note created successfully.",
+      data: note
+    });
   } catch (error) {
     error.methodName = addNote.name;
     next(error);
@@ -70,7 +74,11 @@ const editNote = async (req, res, next) => {
     note.tags = tags;
     await note.save();
 
-    res.status(200).json({ error: false, message: "Note updated successfully." });
+    res.status(200).json({
+      error: false,
+      message: "Note updated successfully.",
+      data: note
+    });
   } catch (error) {
     error.methodName = editNote.name;
     next(error);
@@ -97,7 +105,11 @@ const pinNote = async (req, res, next) => {
 
     const action = note.isPinned ? "pinned" : "unpinned";
 
-    res.status(200).json({ error: false, message: `Note ${action} successfully.` });
+    res.status(200).json({
+      error: false,
+      message: `Note ${action} successfully.`,
+      data: note
+    });
   } catch (error) {
     error.methodName = pinNote.name;
     next(error);

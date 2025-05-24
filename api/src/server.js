@@ -22,11 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/notes", noteRoutes);
 
 app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === "production") {
-    return res.status(500).json({ message: "Internal Server Error." });
-  }
-
-  res.status(500).json({ message: `Error ${err.methodName} module: ${err.message}` });
+  return res.status(500).json({ message: `Error ${err.methodName} module: ${err.message}` });
 });
 
 app.listen(port, async () => {

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import TagInput from "../../components/common/TagInput";
 import { MdClose } from "react-icons/md";
+import axiosInstance from "../../utils/axios";
+import { sortNotes } from "../../utils/helper";
 
-const AddEditNotes = ({ type, noteData, closeHandler }) => {
+const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
@@ -10,12 +12,41 @@ const AddEditNotes = ({ type, noteData, closeHandler }) => {
 
   // Add note
   const addNote = async () => {
+    try {
+      const res = await axiosInstance.post("/notes", {
+        title,
+        content,
+        tags
+      });
 
+      if (res?.data?.data) {
+        setListNotes((prev) =>
+          sortNotes([...prev, res.data.data]));
+        closeHandler();
+      }
+    } catch (error) {
+      setError(error?.response?.data?.message || "Failed to add note.")
+    }
   };
 
   // Edit note
   const editNote = async () => {
+    try {
+      const res = await axiosInstance.patch(`/notes/${noteData._id}`, {
+        title,
+        content,
+        tags
+      });
+      if (res?.data?.data) {
+        setListNotes((prev) =>
+          sortNotes(prev.map((currentNote) =>
+            currentNote._id === noteData._id? res.data.data : currentNote)));
+        closeHandler();
+      }
 
+    } catch (error) {
+      setError(error?.response?.data?.message || "Failed to edit note.");
+    }
   };
 
   const addEditNoteHandler = () => {
