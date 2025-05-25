@@ -4,10 +4,10 @@ import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axios";
 import { sortNotes } from "../../utils/helper";
 
-const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+const NoteModal = ({ type, note, setListNotes, showToast, closeHandler }) => {
+  const [title, setTitle] = useState(note?.title || "");
+  const [content, setContent] = useState(note?.content || "");
+  const [tags, setTags] = useState(note?.tags || []);
   const [error, setError] = useState(null);
 
   // Add note
@@ -22,8 +22,11 @@ const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
       if (res?.data?.data) {
         setListNotes((prev) =>
           sortNotes([...prev, res.data.data]));
+        showToast(res.data.error, res.data.message);
         closeHandler();
       }
+
+      console.log(res);
     } catch (error) {
       setError(error?.response?.data?.message || "Failed to add note.")
     }
@@ -32,7 +35,7 @@ const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
   // Edit note
   const editNote = async () => {
     try {
-      const res = await axiosInstance.patch(`/notes/${noteData._id}`, {
+      const res = await axiosInstance.patch(`/notes/${note._id}`, {
         title,
         content,
         tags
@@ -40,7 +43,8 @@ const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
       if (res?.data?.data) {
         setListNotes((prev) =>
           sortNotes(prev.map((currentNote) =>
-            currentNote._id === noteData._id? res.data.data : currentNote)));
+            currentNote._id === note._id? res.data.data : currentNote)));
+        showToast(res.data.error, res.data.message);
         closeHandler();
       }
 
@@ -80,7 +84,7 @@ const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
       <div className="flex flex-col gap-2">
         <label className="input-label">TITLE</label>
         <input type="text"
-          className="text-2xl text-slate-950 outline-none"
+          className="text-2xl text-slate-950 bg-slate-50 outline-none"
           placeholder="This is title"
           value={title}
           onChange={(e) => {
@@ -116,4 +120,4 @@ const AddEditNotes = ({ type, noteData, setListNotes, closeHandler }) => {
   );
 };
 
-export default AddEditNotes;
+export default NoteModal;

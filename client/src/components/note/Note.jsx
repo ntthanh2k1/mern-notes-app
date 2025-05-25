@@ -2,10 +2,18 @@ import { MdCreate, MdDelete } from "react-icons/md";
 import { BsPin, BsPinAngle } from "react-icons/bs";
 import axiosInstance from "../../utils/axios";
 import { useState } from "react";
-import { sortNotes } from "../../utils/helper";
+import { formatDate, sortNotes } from "../../utils/helper";
 
-const Note = ({ note, setListNotes }) => {
+const Note = ({ note, setListNotes, setNoteModal, showToast }) => {
   const [error, setError] = useState(null);
+
+  const editNoteHandler = () => {
+    setNoteModal({
+      isShown: true,
+      type: "edit",
+      data: note
+    })
+  };
 
   const pinNoteHandler = async () => {
     try {
@@ -21,17 +29,16 @@ const Note = ({ note, setListNotes }) => {
     }
   };
 
-  const editNoteHandler = () => {
-
-  };
-
   const deleteNoteHandler = async () => {
     try {
-      await axiosInstance.delete(`/notes/${note._id}`);
+      const res = await axiosInstance.delete(`/notes/${note._id}`);
 
-      setListNotes((prev) =>
-        sortNotes(prev.filter((currentNote) =>
-          currentNote._id !== note._id)));
+      if (res?.data) {
+        setListNotes((prev) =>
+          sortNotes(prev.filter((currentNote) =>
+            currentNote._id !== note._id)));
+        showToast(res.data.error, res.data.message);
+      }
     } catch (error) {
       setError(error?.response?.data?.message || "Failed to delete note.");
     }
@@ -47,7 +54,7 @@ const Note = ({ note, setListNotes }) => {
         <div className="">
           <h6 className="text-sm font-medium">{note.title}</h6>
 
-          <span className="text-xs text-slate-500">{note.createdAt}</span>
+          <span className="text-xs text-slate-500">{formatDate(note.createdAt)}</span>
         </div>
 
         {note.isPinned ? (
