@@ -37,9 +37,11 @@ const Home = () => {
     });
   };
 
-  const fetchNotes = async () => {
+  const getAllNotes = async (search = "") => {
     try {
-      const res = await axiosInstance.get("/notes");
+      const res = await axiosInstance.get("/notes", {
+        params: { search }
+      });
       
       if (res?.data?.data) {
         setListNotes(sortNotes(res.data.data));
@@ -50,7 +52,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchNotes();
+    getAllNotes();
   }, []);
 
   if (error) {
@@ -59,7 +61,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar searchHandler={getAllNotes} />
 
       <div className="container mx-auto">
         <ListNotes

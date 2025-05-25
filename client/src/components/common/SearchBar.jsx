@@ -2,16 +2,16 @@ import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
-const SearchBar = () => {
+const SearchBar = ({ searchHandler }) => {
   const [searchString, setSearchString] = useState("");
   
-    const searchHandler = () => {
-  
-    };
-  
-    const clearSearchHandler = () => {
-      setSearchString("");
-    };
+  const onSearch = () => {
+    searchHandler(searchString);
+  };
+
+  const clearSearchHandler = () => {
+    setSearchString("");
+  };
 
   return (
     // dùng 'items-center' thì items ở giữa vẫn bị lệch nếu độ dài 2 items ở 2 đầu có kích
@@ -28,7 +28,7 @@ const SearchBar = () => {
 
       {searchString && (<IoMdClose className="text-xl text-slate-500 cursor-pointer hover:text-black mr-2" onClick={clearSearchHandler} />)}
 
-      <FaMagnifyingGlass className="text-slate-400 cursor-pointer hover:text-black" onClick={searchHandler} />
+      <FaMagnifyingGlass className="text-slate-400 cursor-pointer hover:text-black" onClick={onSearch} />
     </div>
   );
 };

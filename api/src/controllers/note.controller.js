@@ -3,7 +3,22 @@ import Note from "../models/note.model.js";
 const getAllNotes = async (req, res, next) => {
   try {
     const user = req.user;
-    const notes = await Note.find({ userId: user._id }).sort({ isPinned: -1 });
+    const { search } = req.query;
+
+    let query = { userId: user._id };
+
+    if (search) {
+      query = {
+        ...query,
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { content: { $regex: search, $options: "i" } },
+          { tags: { $in: [new RegExp(search, "i")] } }
+        ]
+      };
+    }
+
+    const notes = await Note.find(query).sort({ isPinned: -1 });
 
     res.status(200).json({ error: false, data: notes });
   } catch (error) {
