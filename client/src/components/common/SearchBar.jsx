@@ -9,8 +9,14 @@ const SearchBar = ({ searchHandler }) => {
     searchHandler(searchString);
   };
 
+  const keyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      searchHandler(searchString);
+    }
+  };
+
   const clearSearchHandler = () => {
-    setSearchString("");
+    onSearch();
   };
 
   return (
@@ -24,7 +30,8 @@ const SearchBar = ({ searchHandler }) => {
         value={searchString}
         onChange={(e) => {
           setSearchString(e.target.value);
-        }} />
+        }}
+        onKeyDown={keyDownHandler} />
 
       {searchString && (<IoMdClose className="text-xl text-slate-500 cursor-pointer hover:text-black mr-2" onClick={clearSearchHandler} />)}
 
