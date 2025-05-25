@@ -1,6 +1,6 @@
 import { useState } from "react";
-import TagInput from "../../components/common/TagInput";
 import { MdClose } from "react-icons/md";
+import TagInput from "../../components/common/TagInput";
 import axiosInstance from "../../utils/axios";
 import { sortNotes } from "../../utils/helper";
 

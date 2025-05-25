@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../components/layout/Navbar";
-import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
+import { MdAdd } from "react-icons/md";
+import NoteModal from "./NoteModal";
+import Navbar from "../../components/layout/Navbar";
 import ListNotes from "../../components/note/ListNotes";
+import Toast from "../../components/common/Toast";
 import { sortNotes } from "../../utils/helper";
 import axiosInstance from "../../utils/axios";
-import NoteModal from "./NoteModal";
-import Toast from "../../components/common/Toast";
 
 const Home = () => {
   const [listNotes, setListNotes] = useState([]);

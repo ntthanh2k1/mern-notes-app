@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { LuCheck } from "react-icons/lu";
-import { useEffect } from "react";
 
 const Toast = ({ isShown, error, message, closeToastHandler }) => {
   useEffect(() => {

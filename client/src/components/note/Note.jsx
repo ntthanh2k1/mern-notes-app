@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { MdCreate, MdDelete } from "react-icons/md";
 import { BsPin, BsPinAngle } from "react-icons/bs";
 import axiosInstance from "../../utils/axios";
-import { useState } from "react";
 import { formatDate, sortNotes } from "../../utils/helper";
 
 const Note = ({ note, setListNotes, setNoteModal, showToast }) => {

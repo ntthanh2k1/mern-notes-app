@@ -1,6 +1,6 @@
 import { LuNotepadText } from "react-icons/lu";
-import EmptyNote from "./EmptyNote";
 import Note from "./Note";
+import EmptyNote from "./EmptyNote";
 
 const ListNotes = ({ listNotes, setListNotes, setNoteModal, showToast }) => {
   return (

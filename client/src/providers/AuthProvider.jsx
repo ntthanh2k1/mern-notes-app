@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import AuthContext from "../context/authContext";
-import axiosInstance from "../utils/axios";
 import Loading from "../components/common/Loading";
+import axiosInstance from "../utils/axios";
+import AuthContext from "../context/authContext";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);

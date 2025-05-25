@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import axiosInstance from "../../utils/axios";
 import { getInitialChars } from "../../utils/helper";
-import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
 const UserInfo = () => {
   const [error, setError] = useState(null);
