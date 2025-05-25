@@ -2,9 +2,9 @@
   "name": "mern-notes-app",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "build": "npm --prefix ./api run build && npm --prefix ./client run build",
-    "start": "npm --prefix ./api run prod"
+    
   },
   "keywords": [],
   "author": "",
