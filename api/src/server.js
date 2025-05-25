@@ -27,6 +27,8 @@ app.use((err, req, res, next) => {
   return res.status(500).json({ error: true, message: `Error ${err.methodName} module: ${err.message}` });
 });
 
+// app.get("*", ...) -> không match các route có query sau ? (http://localhost:3000/api/notes?search=123)
+// ap.get("/{*splat}") -> match tất cả các route.
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
   app.get("/{*splat}", (req, res) => {
